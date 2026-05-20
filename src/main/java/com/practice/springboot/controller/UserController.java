@@ -1,9 +1,7 @@
 package com.practice.springboot.controller;
 
-import com.practice.springboot.entity.User;
+import com.practice.springboot.dto.UserDTO;
 import com.practice.springboot.service.UserService;
-import com.practice.springboot.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,25 +26,26 @@ public class UserController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        User savedUser = userService.createUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
+        UserDTO savedUserDTO = userService.createUser(userDTO);
+        return new ResponseEntity<>(savedUserDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id){
-        User user = userService.getUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id){
+        UserDTO userDTO = userService.getUserById(id);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<User>> getAllUser(){
-        return new ResponseEntity<>(userService.getAllUSer(), HttpStatus.OK);
+    public ResponseEntity<List<UserDTO>> getAllUser(){
+        List<UserDTO> userDTOList = userService.getAllUSer();
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
     @PutMapping("{id}/update")
-    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable Integer id){
-        return ResponseEntity.ok(userService.updateUser(user, id));
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Integer id){
+        return ResponseEntity.ok(userService.updateUser(userDTO, id));
     }
 
     @DeleteMapping("{id}/delete")

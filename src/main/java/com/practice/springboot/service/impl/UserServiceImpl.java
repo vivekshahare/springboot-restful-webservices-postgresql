@@ -1,7 +1,9 @@
 package com.practice.springboot.service.impl;
 
+import com.practice.springboot.dto.UserDTO;
 import com.practice.springboot.entity.User;
 import com.practice.springboot.exception.UserNotFoundException;
+import com.practice.springboot.mapper.UserMapper;
 import com.practice.springboot.repository.UserRepository;
 import com.practice.springboot.service.UserService;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static com.practice.springboot.mapper.UserMapper.mapToUser;
+import static com.practice.springboot.mapper.UserMapper.mapToUserDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,29 +24,31 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user){
-        return userRepository.save(user);
+    public UserDTO createUser(UserDTO userDTO){
+         User user = userRepository.save(mapToUser(userDTO));
+         return mapToUserDTO(user);
     }
 
-    public User getUserById(Integer id){
-        return userRepository.findById(id).orElseThrow( ()-> new UserNotFoundException("User Not Found"));
+    public UserDTO getUserById(Integer id){
+        User user = userRepository.findById(id).orElseThrow( ()-> new UserNotFoundException("User Not Found"));
+        return mapToUserDTO(user);
     }
 
-    public List<User> getAllUSer() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUSer() {
+        List<User> userList = userRepository.findAll();
+        return userList.stream().map(UserMapper::mapToUserDTO).toList();
     }
 
-    @Override
-    public User updateUser(User user, Integer id) {
+    public UserDTO updateUser(UserDTO userDTO, Integer id) {
         Optional<User> savedUser = userRepository.findById(id);
         if(savedUser.isPresent()){
             User updateUser = savedUser.get();
-            updateUser.setFirstName(user.getFirstName());
-            updateUser.setLastName(user.getLastName());
-            updateUser.setEmail(user.getEmail());
+            updateUser.setFirstName(userDTO.getFirstName());
+            updateUser.setLastName(userDTO.getLastName());
+            updateUser.setEmail(userDTO.getEmail());
             updateUser.setUpdatedAt(LocalDateTime.now());
             userRepository.save(updateUser);
-            return updateUser;
+            return mapToUserDTO(updateUser);
         } else {
             throw new UserNotFoundException("User Not Found");
         }
