@@ -3,7 +3,6 @@ package com.practice.springboot.service.impl;
 import com.practice.springboot.dto.UserDTO;
 import com.practice.springboot.entity.User;
 import com.practice.springboot.exception.UserNotFoundException;
-import com.practice.springboot.mapper.UserMapper;
 import com.practice.springboot.repository.UserRepository;
 import com.practice.springboot.service.UserService;
 import org.springframework.stereotype.Service;
@@ -12,8 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.practice.springboot.mapper.UserMapper.mapToUser;
-import static com.practice.springboot.mapper.UserMapper.mapToUserDTO;
+import static com.practice.springboot.mapper.UserMapperMapStruct.MAPPER;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,18 +23,18 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDTO createUser(UserDTO userDTO){
-         User user = userRepository.save(mapToUser(userDTO));
-         return mapToUserDTO(user);
+         User user = userRepository.save(MAPPER.userDTOToUser(userDTO));
+         return MAPPER.userToUserDTO(user);
     }
 
     public UserDTO getUserById(Integer id){
         User user = userRepository.findById(id).orElseThrow( ()-> new UserNotFoundException("User Not Found"));
-        return mapToUserDTO(user);
+        return MAPPER.userToUserDTO(user);
     }
 
     public List<UserDTO> getAllUSer() {
         List<User> userList = userRepository.findAll();
-        return userList.stream().map(UserMapper::mapToUserDTO).toList();
+        return userList.stream().map(MAPPER::userToUserDTO).toList();
     }
 
     public UserDTO updateUser(UserDTO userDTO, Integer id) {
@@ -48,7 +46,7 @@ public class UserServiceImpl implements UserService {
             updateUser.setEmail(userDTO.getEmail());
             updateUser.setUpdatedAt(LocalDateTime.now());
             userRepository.save(updateUser);
-            return mapToUserDTO(updateUser);
+            return MAPPER.userToUserDTO(updateUser);
         } else {
             throw new UserNotFoundException("User Not Found");
         }
