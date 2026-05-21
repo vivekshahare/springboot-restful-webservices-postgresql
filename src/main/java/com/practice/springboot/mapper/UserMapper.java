@@ -6,7 +6,7 @@ import com.practice.springboot.entity.User;
 public class UserMapper {
 
     //Convert User JPA Entity into UserDTO
-    public static UserDTO mapToUserDTO(User user){
+    public static UserDTO mapToUserDTO(User user) {
         return new UserDTO(
                 user.getId(),
                 user.getFirstName(),
@@ -16,7 +16,7 @@ public class UserMapper {
     }
 
     //Convert UserDTO into User JPA Entity
-    public static User mapToUser(UserDTO userDTO){
+    public static User mapToUser(UserDTO userDTO) {
         return new User(userDTO.getId(),
                 userDTO.getFirstName(),
                 userDTO.getLastName(),

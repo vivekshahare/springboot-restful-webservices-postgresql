@@ -26,30 +26,30 @@ public class UserController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserDTO savedUserDTO = userService.createUser(userDTO);
         return new ResponseEntity<>(savedUserDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id){
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id) {
         UserDTO userDTO = userService.getUserById(id);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<UserDTO>> getAllUser(){
+    public ResponseEntity<List<UserDTO>> getAllUser() {
         List<UserDTO> userDTOList = userService.getAllUSer();
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
     @PutMapping("{id}/update")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Integer id){
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Integer id) {
         return ResponseEntity.ok(userService.updateUser(userDTO, id));
     }
 
     @DeleteMapping("{id}/delete")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Integer userId){
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Integer userId) {
         return ResponseEntity.ok(userService.deleteUser(userId));
     }
 }

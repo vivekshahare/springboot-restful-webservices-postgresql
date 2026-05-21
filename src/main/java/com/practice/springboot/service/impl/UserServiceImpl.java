@@ -2,6 +2,7 @@ package com.practice.springboot.service.impl;
 
 import com.practice.springboot.dto.UserDTO;
 import com.practice.springboot.entity.User;
+import com.practice.springboot.exception.EmailAlreadyExistsException;
 import com.practice.springboot.exception.UserNotFoundException;
 import com.practice.springboot.repository.UserRepository;
 import com.practice.springboot.service.UserService;
@@ -22,13 +23,18 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDTO createUser(UserDTO userDTO){
-         User user = userRepository.save(MAPPER.userDTOToUser(userDTO));
-         return MAPPER.userToUserDTO(user);
+    public UserDTO createUser(UserDTO userDTO) {
+        Optional<User> userExists = userRepository.findByEmail(userDTO.getEmail());
+        if (userExists.isPresent()) {
+            throw new EmailAlreadyExistsException("User Email Already Exists");
+        } else {
+            User user = userRepository.save(MAPPER.userDTOToUser(userDTO));
+            return MAPPER.userToUserDTO(user);
+        }
     }
 
-    public UserDTO getUserById(Integer id){
-        User user = userRepository.findById(id).orElseThrow( ()-> new UserNotFoundException("User Not Found"));
+    public UserDTO getUserById(Integer id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User Not Found"));
         return MAPPER.userToUserDTO(user);
     }
 
@@ -38,30 +44,19 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDTO updateUser(UserDTO userDTO, Integer id) {
-        Optional<User> savedUser = userRepository.findById(id);
-        if(savedUser.isPresent()){
-            User updateUser = savedUser.get();
-            updateUser.setFirstName(userDTO.getFirstName());
-            updateUser.setLastName(userDTO.getLastName());
-            updateUser.setEmail(userDTO.getEmail());
-            updateUser.setUpdatedAt(LocalDateTime.now());
-            userRepository.save(updateUser);
-            return MAPPER.userToUserDTO(updateUser);
-        } else {
-            throw new UserNotFoundException("User Not Found");
-        }
+        User existingUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        existingUser.setFirstName(userDTO.getFirstName());
+        existingUser.setLastName(userDTO.getLastName());
+        existingUser.setEmail(userDTO.getEmail());
+        existingUser.setUpdatedAt(LocalDateTime.now());
+        User updatedUser = userRepository.save(existingUser);
+        return MAPPER.userToUserDTO(updatedUser);
     }
 
     @Override
     public String deleteUser(Integer id) {
-        Optional<User> savedUser = userRepository.findById(id);
-        if(savedUser.isPresent()){
-            userRepository.deleteById(id);
-            return "User Deleted Successfully";
-        } else {
-            throw new UserNotFoundException("User Not Found");
-        }
+        User savedUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        userRepository.deleteById(id);
+        return "User Deleted Successfully";
     }
-
-
 }
