@@ -14,7 +14,67 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"firstName\" : \"Rohit\",\r\n    \"lastName\" : \"Kohli\",\r\n    \"email\" : \"rohit@test.com\"\r\n}",
+          "raw": "{\r\n    \"firstName\" : \"Raju\",\r\n    \"lastName\" : \"Rastogi\",\r\n    \"email\" : \"raju@test.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/users/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "userEmailValidation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\" : \"Aman\",\r\n    \"lastName\" : \"Sakhare\",\r\n    \"email\" : \"aman\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/users/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "userfirstNamelastNameValidation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\" : \"\",\r\n    \"lastName\" : \"\",\r\n    \"email\" : \"\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -43,7 +103,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/users/2",
+          "raw": "http://localhost:8080/api/users/7",
           "protocol": "http",
           "host": [
             "localhost"
@@ -52,7 +112,7 @@
           "path": [
             "api",
             "users",
-            "2"
+            "7"
           ]
         }
       },
@@ -106,7 +166,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"firstName\" : \"updateFirst\",\r\n    \"lastName\" : \"updateLast\",\r\n    \"email\" : \"update@test.com\"\r\n}",
+          "raw": "{\r\n    \"firstName\" : \"update\",\r\n    \"lastName\" : \"update\",\r\n    \"email\" : \"update@test.com\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -114,7 +174,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/users/2/update",
+          "raw": "http://localhost:8080/api/users/7/update",
           "protocol": "http",
           "host": [
             "localhost"
@@ -123,7 +183,7 @@
           "path": [
             "api",
             "users",
-            "2",
+            "7",
             "update"
           ]
         }
@@ -136,7 +196,7 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/users/2/delete",
+          "raw": "http://localhost:8080/api/users/6/delete",
           "protocol": "http",
           "host": [
             "localhost"
@@ -145,7 +205,7 @@
           "path": [
             "api",
             "users",
-            "2",
+            "6",
             "delete"
           ]
         }

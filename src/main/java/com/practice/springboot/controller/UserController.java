@@ -2,6 +2,7 @@ package com.practice.springboot.controller;
 
 import com.practice.springboot.dto.UserDTO;
 import com.practice.springboot.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
         UserDTO savedUserDTO = userService.createUser(userDTO);
         return new ResponseEntity<>(savedUserDTO, HttpStatus.CREATED);
     }
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("{id}/update")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Integer id) {
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable Integer id) {
         return ResponseEntity.ok(userService.updateUser(userDTO, id));
     }
 
