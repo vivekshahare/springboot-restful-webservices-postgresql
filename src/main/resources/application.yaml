@@ -1,6 +1,6 @@
 spring:
   application:
-    name: spring-boot-restful-webservices-postgresq
+    name: spring-boot-restful-webservices-postgresql
 
   datasource:
     url: jdbc:postgresql://localhost:5432/user_management
@@ -15,3 +15,22 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+#Actuator Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+info:
+  app:
+    name: Spring Boot Restful Web Services
+    description: Spring Boot Restful Web Services Demo
+    version: 1.0.0
